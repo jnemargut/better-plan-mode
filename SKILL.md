@@ -703,34 +703,30 @@ Each decision page must be a self-contained HTML file with this structure:
 
     /* === FLOW DIAGRAM STYLES (for interaction decisions) === */
 
-    /* Multi-row flow: use .flow-container as the outer wrapper.
-       Each row is a .flow-row (horizontal). Rows are connected by .flow-down-arrow. */
+    /* Vertical numbered flow: each step is a numbered box in a single column.
+       This is the ONLY supported flow diagram layout. Do NOT use horizontal rows. */
     .flow-container {
       display: flex;
       flex-direction: column;
-      align-items: center;
+      align-items: stretch;
       gap: 0;
       padding: 0.5rem;
       width: 100%;
-    }
-
-    .flow-row {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0;
+      max-width: 280px;
     }
 
     .flow-step {
+      display: flex;
+      align-items: center;
+      gap: 10px;
       background: white;
       border: 2px solid #e2e8f0;
       border-radius: 10px;
-      padding: 8px 14px;
-      font-size: 0.75rem;
+      padding: 8px 12px;
+      font-size: 0.7rem;
       font-weight: 600;
       color: #334155;
-      text-align: center;
-      min-width: 80px;
+      text-align: left;
       box-shadow: 0 1px 2px rgba(0,0,0,0.05);
     }
 
@@ -740,25 +736,36 @@ Each decision page must be a self-contained HTML file with this structure:
       color: #1d4ed8;
     }
 
-    /* Horizontal arrow between steps in a row */
-    .flow-arrow {
-      font-size: 1.2rem;
-      color: #94a3b8;
-      padding: 0 6px;
+    .flow-step-number {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #e2e8f0;
+      color: #475569;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.6rem;
+      font-weight: 700;
       flex-shrink: 0;
     }
 
-    /* Vertical arrow between rows — must be a direct child of .flow-container */
-    .flow-down-arrow {
-      font-size: 1.2rem;
-      color: #94a3b8;
-      padding: 4px 0;
-      text-align: center;
+    .flow-step.highlight .flow-step-number {
+      background: #6366f1;
+      color: white;
     }
 
-    /* DEPRECATED: .flow-diagram and .flow-vertical are no longer used.
-       If you see them in old code, migrate to .flow-container > .flow-row pattern.
-       DO NOT nest .flow-diagram inside .flow-vertical — it causes arrow rotation bugs. */
+    .flow-step-label {
+      flex: 1;
+    }
+
+    /* Down arrow between steps */
+    .flow-down-arrow {
+      font-size: 1rem;
+      color: #94a3b8;
+      padding: 2px 0;
+      text-align: center;
+    }
 
     /* === SITE MAP / NAV VISUALIZATION (for IA decisions) === */
     .sitemap {
@@ -976,57 +983,51 @@ Build actual rendered UI elements — buttons, cards, badges, input fields, nav 
 ```
 
 **For Interaction decisions (user flows, how actions work):**
-Build a flow diagram using the `.flow-container`, `.flow-row`, `.flow-step`, `.flow-arrow`, and `.flow-down-arrow` CSS classes.
+Build a vertical numbered flow diagram using `.flow-container`, `.flow-step`, `.flow-step-number`, `.flow-step-label`, and `.flow-down-arrow`.
 
-**Single row (simple flows):**
+**ALWAYS use this pattern — a vertical column of numbered steps:**
 ```html
 <div class="flow-container">
-  <div class="flow-row">
-    <div class="flow-step">Browse Books</div>
-    <span class="flow-arrow">→</span>
-    <div class="flow-step highlight">Send Request</div>
-    <span class="flow-arrow">→</span>
-    <div class="flow-step">Owner Approves</div>
-    <span class="flow-arrow">→</span>
-    <div class="flow-step">Pick Up</div>
-  </div>
-</div>
-```
-
-**Multi-row (complex flows with 5+ steps) — ALWAYS use this pattern:**
-```html
-<div class="flow-container">
-  <div class="flow-row">
-    <div class="flow-step">Browse Books</div>
-    <span class="flow-arrow">→</span>
-    <div class="flow-step highlight">Send Request</div>
-    <span class="flow-arrow">→</span>
-    <div class="flow-step">Owner Notified</div>
+  <div class="flow-step">
+    <span class="flow-step-number">1</span>
+    <span class="flow-step-label">Browse books nearby</span>
   </div>
   <div class="flow-down-arrow">↓</div>
-  <div class="flow-row">
-    <div class="flow-step highlight">Owner Approves</div>
-    <span class="flow-arrow">→</span>
-    <div class="flow-step">Chat Opens</div>
-    <span class="flow-arrow">→</span>
-    <div class="flow-step">Arrange Pickup</div>
+  <div class="flow-step highlight">
+    <span class="flow-step-number">2</span>
+    <span class="flow-step-label">Tap "Request to Borrow"</span>
   </div>
   <div class="flow-down-arrow">↓</div>
-  <div class="flow-row">
-    <div class="flow-step">Both Confirm</div>
-    <span class="flow-arrow">→</span>
-    <div class="flow-step highlight">Book Borrowed!</div>
+  <div class="flow-step">
+    <span class="flow-step-number">3</span>
+    <span class="flow-step-label">Owner gets notified</span>
+  </div>
+  <div class="flow-down-arrow">↓</div>
+  <div class="flow-step highlight">
+    <span class="flow-step-number">4</span>
+    <span class="flow-step-label">Owner approves request</span>
+  </div>
+  <div class="flow-down-arrow">↓</div>
+  <div class="flow-step">
+    <span class="flow-step-number">5</span>
+    <span class="flow-step-label">Chat opens — arrange pickup</span>
+  </div>
+  <div class="flow-down-arrow">↓</div>
+  <div class="flow-step highlight">
+    <span class="flow-step-number">6</span>
+    <span class="flow-step-label">Both confirm handoff — done!</span>
   </div>
 </div>
 ```
 
 **IMPORTANT flow diagram rules:**
-- Use `→` for horizontal arrows (`.flow-arrow` between steps in a `.flow-row`)
-- Use `↓` for vertical arrows (`.flow-down-arrow` between `.flow-row` elements)
-- NEVER nest `.flow-row` elements inside each other
-- NEVER use `.flow-vertical` or `.flow-diagram` classes — they are deprecated and cause rotation bugs
-- Keep each row to 2-4 steps max for readability
-- Use `.highlight` on the most important/differentiating steps
+- ALWAYS use a vertical single-column layout. NEVER use horizontal rows — they create confusing arrow connections.
+- ALWAYS number every step with `.flow-step-number` (1, 2, 3, etc.)
+- Use `↓` arrows (`.flow-down-arrow`) between each step
+- Use `.highlight` on the 2-3 most important/differentiating steps (the ones that make this option unique)
+- Keep to 4-7 steps. Combine trivial steps if needed.
+- In the **option-summary text below the diagram**, reference step numbers: "In step 2, the borrower taps..." This ties the visual to the explanation.
+- Each step label should be a short action phrase (verb first): "Tap request button", "Owner approves", "Chat opens"
 
 **For Information Architecture decisions (navigation, content hierarchy):**
 Build a mini site-map using the `.sitemap`, `.sitemap-level`, and `.sitemap-node` CSS classes:
