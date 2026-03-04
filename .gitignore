@@ -1,0 +1,11 @@
+# Example/test files — not part of the skill
+movie/
+overlappingbadges/
+weirdflowdiagram/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Decisions output (generated at runtime by the skill)
+.decisions/
