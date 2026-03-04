@@ -1,13 +1,7 @@
 ---
 name: better-plan-mode
-description: >
-  Enhanced planning mode that presents decision points as rich HTML documents
-  with visual previews, comparison tables, and recommendations. Tracks all
-  decisions in a browsable history with a landing page. Use for planning new
-  projects or major features. Trigger phrases: "plan mode", "better plan",
-  "help me plan", "I want to build", "let's plan out".
+description: "Enhanced planning mode that presents decision points as rich HTML documents with visual previews, comparison tables, and recommendations. Tracks all decisions in a browsable history with a landing page. Use for planning new projects or major features."
 argument-hint: "[describe what you want to build or the feature you're planning]"
-allowed-tools: Read, Grep, Glob, Write, Edit, Bash(open *), Bash(mkdir *), Bash(cat *), Bash(ls *)
 ---
 
 # Better Plan Mode
@@ -767,6 +761,31 @@ Each decision page must be a self-contained HTML file with this structure:
       text-align: center;
     }
 
+    /* Error/failure step variant */
+    .flow-step.error {
+      border-color: #e11d48;
+      background: #fff1f2;
+      color: #be123c;
+    }
+
+    .flow-step.error .flow-step-number {
+      background: #e11d48;
+      color: white;
+    }
+
+    /* Branch label — dashed separator showing a conditional path */
+    .flow-branch-label {
+      font-size: 0.6rem;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      text-align: center;
+      padding: 6px 0 2px;
+      border-top: 1px dashed #cbd5e1;
+      margin-top: 4px;
+    }
+
     /* === SITE MAP / NAV VISUALIZATION (for IA decisions) === */
     .sitemap {
       display: flex;
@@ -1020,10 +1039,43 @@ Build a vertical numbered flow diagram using `.flow-container`, `.flow-step`, `.
 </div>
 ```
 
+**Branching flows (when the path splits based on a condition):**
+Use `.flow-branch-label` for the condition and sub-numbered steps (4a, 4b, etc.) for each branch. Use `.flow-step.error` for failure/error steps:
+```html
+<div class="flow-container">
+  <div class="flow-step">
+    <span class="flow-step-number">1</span>
+    <span class="flow-step-label">Tap "Request to Borrow"</span>
+  </div>
+  <div class="flow-down-arrow">↓</div>
+  <div class="flow-step error">
+    <span class="flow-step-number">2</span>
+    <span class="flow-step-label">Request fails</span>
+  </div>
+  <div class="flow-down-arrow">↓</div>
+  <div class="flow-step highlight">
+    <span class="flow-step-number">3</span>
+    <span class="flow-step-label">Button changes to suggested action</span>
+  </div>
+  <div class="flow-branch-label">if book was taken ↓</div>
+  <div class="flow-step">
+    <span class="flow-step-number">3a</span>
+    <span class="flow-step-label">Button says "See Similar Books"</span>
+  </div>
+  <div class="flow-branch-label">if network error ↓</div>
+  <div class="flow-step">
+    <span class="flow-step-number">3b</span>
+    <span class="flow-step-label">Button says "Try Again"</span>
+  </div>
+</div>
+```
+
 **IMPORTANT flow diagram rules:**
 - ALWAYS use a vertical single-column layout. NEVER use horizontal rows — they create confusing arrow connections.
-- ALWAYS number every step with `.flow-step-number` (1, 2, 3, etc.)
-- Use `↓` arrows (`.flow-down-arrow`) between each step
+- ALWAYS number every step with `.flow-step-number` (1, 2, 3, etc.). Use sub-numbers (4a, 4b) for branches.
+- Use `↓` arrows (`.flow-down-arrow`) between sequential steps
+- Use `.flow-branch-label` with a condition ("if book was taken ↓") before branching sub-steps
+- Use `.flow-step.error` for failure/error steps (red styling)
 - Use `.highlight` on the 2-3 most important/differentiating steps (the ones that make this option unique)
 - Keep to 4-7 steps. Combine trivial steps if needed.
 - In the **option-summary text below the diagram**, reference step numbers: "In step 2, the borrower taps..." This ties the visual to the explanation.
