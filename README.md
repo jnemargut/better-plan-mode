@@ -25,39 +25,39 @@ When you're starting a new project or feature, Better Plan Mode walks you throug
 
 ## Install
 
-The skill is a single `SKILL.md` file. Drop it into the skills directory for your AI coding tool.
+The skill is a single `SKILL.md` file. Drop it into the right directory for your AI coding tool.
 
 **Claude Code:**
 ```bash
-mkdir -p ~/.claude/skills/better-plan-mode
-cp SKILL.md ~/.claude/skills/better-plan-mode/SKILL.md
+git clone https://github.com/jnemargut/better-plan-mode ~/.claude/skills/better-plan-mode
 ```
 
-**Cursor:**
+**Codex:**
 ```bash
-mkdir -p .cursor/skills/better-plan-mode
-cp SKILL.md .cursor/skills/better-plan-mode/SKILL.md
+git clone https://github.com/jnemargut/better-plan-mode ~/.codex/skills/better-plan-mode
 ```
 
 **Gemini CLI:**
 ```bash
-mkdir -p .gemini/skills/better-plan-mode
-cp SKILL.md .gemini/skills/better-plan-mode/SKILL.md
+git clone https://github.com/jnemargut/better-plan-mode ~/.gemini/skills/better-plan-mode
 ```
 
-Or clone directly:
+**Cursor:**
+
+Cursor uses `.mdc` rule files instead of a skills directory. Copy the skill content into a rule:
 ```bash
-# Claude Code
-git clone https://github.com/jnemargut/better-plan-mode ~/.claude/skills/better-plan-mode
-
-# Cursor
-git clone https://github.com/jnemargut/better-plan-mode .cursor/skills/better-plan-mode
-
-# Gemini CLI
-git clone https://github.com/jnemargut/better-plan-mode .gemini/skills/better-plan-mode
+mkdir -p .cursor/rules
+cp SKILL.md .cursor/rules/better-plan-mode.mdc
+```
+Then open `.cursor/rules/better-plan-mode.mdc` and replace the frontmatter with:
+```yaml
+---
+description: "Enhanced planning mode that presents decision points as rich HTML documents with visual previews, comparison tables, and recommendations."
+alwaysApply: false
+---
 ```
 
-The skill should work with any AI coding tool that supports skill files. If yours uses a different directory, just put `SKILL.md` wherever your tool looks for skills.
+The skill should work with any AI coding tool that supports custom instructions or skill files. If yours uses a different directory, just put `SKILL.md` wherever your tool looks for skills or prompts.
 
 ## Usage
 
