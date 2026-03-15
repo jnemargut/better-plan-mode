@@ -1,15 +1,15 @@
 # Better Plan Mode
 
-A Claude Code skill that transforms project planning into a visual, interactive decision-making experience. Instead of quick yes/no prompts, you get rich HTML documents with side-by-side options, visual previews, comparison tables, and a persistent decision history.
+An AI coding skill that transforms project planning into a visual, interactive decision-making experience. Instead of quick yes/no prompts, you get rich HTML documents with side-by-side options, visual previews, comparison tables, and a persistent decision history.
 
 ![Better Plan Mode in action](demo.gif)
 
 ## What It Does
 
-When you're starting a new project or feature, Better Plan Mode walks you through every meaningful decision — one at a time — with:
+When you're starting a new project or feature, Better Plan Mode walks you through every meaningful decision, one at a time, with:
 
 - **4 options per decision** with a clear recommendation and plain English explanations
-- **Visual previews** — rendered UI mockups for design decisions, flow diagrams for interaction decisions, sitemaps for navigation decisions, architecture diagrams for technical decisions
+- **Visual previews** -- rendered UI mockups for design decisions, flow diagrams for interaction decisions, sitemaps for navigation decisions, architecture diagrams for technical decisions
 - **Comparison tables** showing how options stack up across relevant dimensions
 - **A decision history** saved as HTML files you can revisit anytime
 - **A landing page** showing all decisions at a glance with status tracking
@@ -25,18 +25,43 @@ When you're starting a new project or feature, Better Plan Mode walks you throug
 
 ## Install
 
-Copy the skill folder to your Claude Code skills directory:
+The skill is a single `SKILL.md` file. Drop it into the skills directory for your AI coding tool.
 
+**Claude Code:**
 ```bash
 mkdir -p ~/.claude/skills/better-plan-mode
 cp SKILL.md ~/.claude/skills/better-plan-mode/SKILL.md
 ```
 
-That's it. The skill is immediately available in Claude Code.
+**Cursor:**
+```bash
+mkdir -p .cursor/skills/better-plan-mode
+cp SKILL.md .cursor/skills/better-plan-mode/SKILL.md
+```
+
+**Gemini CLI:**
+```bash
+mkdir -p .gemini/skills/better-plan-mode
+cp SKILL.md .gemini/skills/better-plan-mode/SKILL.md
+```
+
+Or clone directly:
+```bash
+# Claude Code
+git clone https://github.com/jnemargut/better-plan-mode ~/.claude/skills/better-plan-mode
+
+# Cursor
+git clone https://github.com/jnemargut/better-plan-mode .cursor/skills/better-plan-mode
+
+# Gemini CLI
+git clone https://github.com/jnemargut/better-plan-mode .gemini/skills/better-plan-mode
+```
+
+The skill should work with any AI coding tool that supports skill files. If yours uses a different directory, just put `SKILL.md` wherever your tool looks for skills.
 
 ## Usage
 
-Invoke the skill in Claude Code with:
+Invoke the skill with:
 
 ```
 /better-plan-mode I want to build a neighborhood book-sharing app where people can list books, browse nearby, and request to borrow
@@ -52,10 +77,10 @@ Or any project description:
 
 Each decision opens as an HTML page in your browser. You can respond with:
 
-- **`Option B`** — pick that option
-- **`Option A but with a darker color palette`** — customize an option
-- **`more options`** — adds 4 more options to the page
-- **`for decision-001 I want Option C instead`** — change a past decision
+- **`Option B`** -- pick that option
+- **`Option A but with a darker color palette`** -- customize an option
+- **`more options`** -- adds 4 more options to the page
+- **`for decision-001 I want Option C instead`** -- change a past decision
 
 ### Output
 
@@ -63,7 +88,7 @@ All decisions are saved to a `.decisions/` folder in your project:
 
 ```
 .decisions/
-  index.html                          # Landing page — overview of all decisions
+  index.html                          # Landing page -- overview of all decisions
   decisions.json                      # Machine-readable state
   decision-001-frontend-framework.html
   decision-002-backend-data.html
@@ -78,10 +103,10 @@ Open `.decisions/index.html` anytime to see the big picture.
 
 Once all decisions are made, the skill generates an implementation plan with a task list and asks how you want to proceed:
 
-- **Auto mode** — Claude works through the tasks automatically
-- **Step by step** — Claude asks for approval before each action
-- **Let me review** — you look over the plan first
-- **Just the plan** — you'll implement it yourself
+- **Auto mode** -- works through the tasks automatically
+- **Step by step** -- asks for approval before each action
+- **Let me review** -- you look over the plan first
+- **Just the plan** -- you'll implement it yourself
 
 ## Better Plan Mode vs. Traditional Plan Mode
 
@@ -92,7 +117,7 @@ Once all decisions are made, the skill generates an implementation plan with a t
 | **Visual decisions** | Text descriptions only | Rendered mockups, flow diagrams, sitemaps |
 | **Recommendation** | Sometimes | Always, with explanation |
 | **Decision history** | Lost after session | Saved as browsable HTML files |
-| **Changing your mind** | Start over | Just tell Claude which decision to update |
+| **Changing your mind** | Start over | Just say which decision to update |
 | **Token usage** | Lower | Higher (generating HTML + visual previews) |
 | **Speed** | Faster | Slower (but more thorough) |
 | **Best for** | Quick prototypes, small features | New projects, major features, design-sensitive work |
