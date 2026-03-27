@@ -124,6 +124,16 @@ Once all decisions are made, the skill generates an implementation plan with a t
 
 Better Plan Mode uses more tokens and takes longer because it's generating rich HTML documents with visual previews. The tradeoff is that you make more informed decisions, especially for UX and design choices that are hard to evaluate from text alone.
 
+## Using with Deep Plan Mode
+
+[Deep Plan Mode](https://github.com/jnemargut/deep-plan-mode) is the companion skill that handles the "what and why" — problem validation, target users, market research, business model, and success metrics.
+
+The two skills work as a pipeline:
+1. Run `/deep-plan-mode` first to nail the strategy
+2. Run `/better-plan-mode` second to plan the implementation
+
+Better Plan Mode automatically detects Deep Plan Mode's output. If it finds a `.decisions/strategy-brief.md` in your project, it reads the strategy decisions and uses them to inform every technical and design recommendation.
+
 ## License
 
 MIT

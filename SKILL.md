@@ -21,6 +21,22 @@ The user's request is: **$ARGUMENTS**
 
 ## PHASE 1 — Understand the Request
 
+### Step 1a — Check for Deep Plan Mode Strategy
+
+Before anything else, check if `.decisions/strategy-brief.md` exists. If it does, read it — the user has already run Deep Plan Mode and made strategic decisions about the problem, target user, market positioning, business model, and/or success metrics.
+
+When a strategy brief exists:
+- **Use it as context for every decision you present.** Reference the strategy decisions naturally in your option descriptions, recommendations, and comparisons. For example: "Since we're targeting budget-conscious parents (from the strategy brief), I'd recommend a visual style that feels approachable rather than premium."
+- **Also read `.decisions/decisions.json`** to understand the full set of strategic decisions that were made. Use the `chosenTitle` values to ground your technical and design recommendations.
+- **Don't re-ask questions the strategy already answered.** If Deep Plan Mode already defined the target user, don't make "who is this for?" a decision point — just use that answer.
+- **Tell the user you found it:**
+
+> "I see you've already run Deep Plan Mode — nice. I'll use your strategy decisions (target user, market positioning, etc.) to inform the technical and design options. Let me map out the implementation decisions..."
+
+Then proceed to Phase 2, using the strategy context throughout.
+
+### Step 1b — Understand the Request
+
 Read `$ARGUMENTS` carefully.
 
 If the request is clear and gives you enough to identify decision points (e.g. "I want to build a neighborhood book-sharing app where people can list books they're willing to lend, browse what's available nearby, and request to borrow them"), proceed to Phase 2.
