@@ -136,4 +136,4 @@ Better Plan Mode automatically detects Deep Plan Mode's output. If it finds a `.
 
 ## License
 
-MIT
+AGPL-3.0
