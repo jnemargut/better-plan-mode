@@ -1,27 +1,26 @@
 ---
 name: better-plan-mode
-description: "Planning mode that presents a single design decision as a rich HTML document with options, a comparison table, and a recommendation. Each invocation surfaces one random decision relevant to what the user is building."
+description: "Planning mode that surfaces a single design decision as a rich HTML document with options, a comparison table, and a recommendation."
 argument-hint: "[describe what you want to build]"
 ---
 
 # Better Plan Mode
 
-You are helping the user think through **one** design decision for what they're building. Each time this skill is invoked, you pick a single random design decision that feels relevant, present it as a rich HTML page, and stop.
+You are helping the user think through one design decision for what they're building. Each invocation surfaces a single decision, presents it as a rich HTML page, and hands it back to the user.
 
 The user's request is: **$ARGUMENTS**
 
 **Core principles:**
-- Write in plain English. Talk like a smart friend, not a technical doc.
+- Write in plain English. Talk like a smart friend.
 - Present exactly 4 options.
 - Always include a recommendation and explain why.
-- Generate **one** decision per invocation. Do not chain or compound decisions across calls.
-- Do not track state, history, or prior decisions. Each call is fresh.
+- Each invocation is self-contained and starts fresh.
 
 ---
 
 ## PHASE 1 — Understand the Request
 
-Read `$ARGUMENTS`. If it's empty or too vague to plan around, ask one quick question:
+Read `$ARGUMENTS`. If it's empty or too vague, ask one quick question:
 
 > "Tell me a bit more about what you're building so I can pick a decision worth thinking about."
 
@@ -29,31 +28,27 @@ Otherwise, proceed.
 
 ---
 
-## PHASE 2 — Pick ONE Random Decision
+## PHASE 2 — Pick a Decision
 
-Pick **one** design decision at random from a category that feels relevant to what the user described. Categories you can pick from:
+Pick a design decision that feels relevant to what the user described. Vary the category each time so the surfaced decision feels fresh:
 
 - **Technical** — framework, database, hosting, auth
 - **Visual** — overall look and feel, color palette, typography
 - **Interaction** — a key user flow, navigation pattern, onboarding
 - **Information Architecture** — what's in the nav, page structure
 
-Do **not** present a roadmap. Do **not** plan multiple decisions. Pick one and only one. Randomize meaningfully — don't always pick "frontend framework."
-
 Tell the user briefly:
 
-> "Here's one decision worth thinking about for this project: **[decision title]**. Opening it in your browser now."
+> "Here's a decision worth thinking about for this project: **[decision title]**. Opening it in your browser now."
 
 ---
 
 ## PHASE 3 — Generate the Decision HTML
 
-Write a self-contained HTML file to a temp location (e.g. `/tmp/decision-[slug].html`). Do **not** create a `.decisions/` directory. Do **not** write any JSON file. Do **not** write a landing page. Do **not** write an implementation plan.
-
-The HTML should follow the structure in the **HTML TEMPLATE REFERENCE** below. It must contain:
+Write a self-contained HTML file to a temp location (e.g. `/tmp/decision-[slug].html`) following the structure in the **HTML TEMPLATE REFERENCE** below. It should contain:
 
 - A header with the decision title and a one-paragraph plain-English description
-- Exactly 4 option cards (A, B, C, D), each with a name, a short summary, pros, and cons
+- Four option cards (A, B, C, D), each with a name, a short summary, pros, and cons
 - One option marked as "Recommended"
 - A small comparison table
 
@@ -65,11 +60,11 @@ open /tmp/decision-[slug].html
 
 ---
 
-## PHASE 4 — Tell the User and Stop
+## PHASE 4 — Hand It Back
 
-> "Take a look at the four options. Tell me which one feels right and we can talk it through — but I'm only going to surface one decision per call, so if you want another decision later, run the skill again."
+> "Take a look at the four options and let me know which one feels right. Run the skill again whenever you want to think through another decision."
 
-**Stop here.** Do not generate more decisions. Do not ask "what's next." Do not regenerate, track, or update anything. If the user wants another decision, they invoke the skill again and you start fresh with no memory of this one.
+The skill ends here.
 
 ---
 
@@ -84,7 +79,6 @@ The HTML file should be a single self-contained page with inline CSS. Structure:
   <meta charset="UTF-8">
   <title>[Decision Title]</title>
   <style>
-    /* Basic reset + typography */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
@@ -200,5 +194,3 @@ The HTML file should be a single self-contained page with inline CSS. Structure:
 </body>
 </html>
 ```
-
-That's the whole skill. One decision, one HTML page, no tracking, no JSON, no compounding. Done.
